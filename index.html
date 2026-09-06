@@ -1,517 +1,301 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Casanova is a modern fashion boutique for confident, elevated everyday wear."
-    />
-    <title>Casanova | Luxury Fashion</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="container nav">
-        <a href="#" class="brand" aria-label="Casanova home">
-          <img class="brand-avatar" src="688440915_18006498734873096_5065158614723290621_n.jpg" alt="Casanova" />
-          <span>Casanova</span>
-        </a>
-
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="#home">Home</a>
-          <a href="#collections">Collections</a>
-          <a href="#featured">Featured</a>
-          <a href="#journal">Journal</a>
-          <a href="#contact">Contact</a>
-          <a href="https://www.instagram.com/d.txn" target="_blank" rel="noreferrer">Instagram</a>
-        </nav>
-
-        <div class="nav-actions">
-          <button class="icon-btn" aria-label="Search">⌕</button>
-          <button id="bagButton" class="icon-btn bag-button" type="button" aria-label="Shopping bag">
-            👜
-            <span id="bagCount" class="bag-count">0</span>
-          </button>
-          <a class="primary-btn" href="#featured">Shop now</a>
-          <button class="menu-toggle" aria-label="Open menu">☰</button>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Casanova Vape — considered vape hardware and flavor." />
+  <title>CASANOVA VAPE | Modern Vape Essentials</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink: #12110f; --cream: #f0e8d8; --paper: #1d1a16; --acid: #c8a96b; --orange: #9a6048; --display: 'Bebas Neue', sans-serif; --body: 'Space Grotesk', sans-serif; --mono: 'IBM Plex Mono', monospace; }
+    body { background: var(--ink); color: var(--cream); }
+    .hero:after { display: none; }
+    .hero { background: radial-gradient(circle at 72% 48%, #2c271d 0%, var(--ink) 48%); }
+    .scroll-cue { color: var(--ink); background: var(--acid); padding: 8px 10px; }
+    .scroll-cue span { color: var(--ink); }
+    .ticker, .ticker span { color: var(--ink); }
+    .site-header { background: var(--ink); color: var(--cream); border-color: rgba(242, 238, 231, .2); }
+    .brand-mark { border-color: var(--acid); color: var(--acid); }
+    .cart-button { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--cream); padding: 0; font: 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .cart-button b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--acid); color: var(--ink); font: 10px var(--mono); }
+    .cart-total { color: var(--acid); font: 10px var(--mono); letter-spacing: .04em; }
+    .add-to-cart { margin-top: 12px; padding: 9px 11px; background: var(--acid); color: var(--ink); font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .add-to-cart:hover { background: var(--cream); }
+    .cart-toast { position: fixed; right: 24px; bottom: 24px; z-index: 8; padding: 14px 18px; background: var(--acid); color: var(--ink); font: 10px var(--mono); transform: translateY(120px); transition: transform .25s ease; }
+    .cart-toast.show { transform: translateY(0); }
+    .bag-backdrop { position: fixed; inset: 0; z-index: 6; background: rgba(0,0,0,.55); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .bag-backdrop.open { opacity: 1; pointer-events: auto; }
+    .bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 7; width: min(420px, 92vw); padding: 28px; background: var(--cream); color: var(--ink); transform: translateX(100%); transition: transform .3s ease; display: flex; flex-direction: column; }
+    .bag-drawer.open { transform: translateX(0); }
+    .bag-header, .bag-line, .bag-total { display: flex; align-items: center; justify-content: space-between; }
+    .bag-header { padding-bottom: 20px; border-bottom: 1px solid rgba(18,17,15,.2); font: 11px var(--mono); letter-spacing: .12em; }
+    .bag-close { background: transparent; color: var(--ink); font: 20px var(--body); padding: 0; }
+    .bag-items { flex: 1; overflow-y: auto; padding: 18px 0; }
+    .bag-empty { color: #777168; font-size: 13px; line-height: 1.6; }
+    .bag-line { padding: 15px 0; border-bottom: 1px solid rgba(18,17,15,.12); gap: 14px; }
+    .bag-line strong { font: 600 14px var(--body); }
+    .bag-line small { color: #777168; display: block; margin-top: 5px; }
+    .bag-total { border-top: 1px solid rgba(18,17,15,.2); padding-top: 18px; font: 11px var(--mono); text-transform: uppercase; }
+    .bag-total strong { color: #d43b32; font: 700 18px var(--body); }
+    .checkout-button { width: 100%; margin-top: 18px; padding: 15px; background: var(--ink); color: var(--cream); font: 10px var(--mono); letter-spacing: .1em; }
+    .checkout-modal { position: fixed; inset: 0; z-index: 9; display: grid; place-items: center; padding: 20px; background: rgba(0,0,0,.7); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .checkout-modal.open { opacity: 1; pointer-events: auto; }
+    .checkout-panel { width: min(480px, 100%); padding: 28px; background: var(--cream); color: var(--ink); }
+    .checkout-panel > p { color: #777168; line-height: 1.6; }
+    .payment-options { display: grid; gap: 10px; margin: 24px 0; }
+    .payment-option { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 16px; border: 1px solid rgba(18,17,15,.2); background: transparent; color: var(--ink); text-align: left; }
+    .payment-option strong { display: block; font: 600 17px var(--body); }
+    .payment-option small { display: block; margin-top: 4px; color: #777168; }
+    .payment-option::after { content: '○'; font: 22px var(--body); }
+    .payment-option.selected { border-color: var(--acid); background: #e3d7bd; }
+    .payment-option.selected::after { content: '●'; color: var(--acid); }
+    .confirm-payment { width: 100%; padding: 15px; background: var(--ink); color: var(--cream); font: 10px var(--mono); letter-spacing: .1em; }
+    .confirm-payment:disabled { cursor: not-allowed; opacity: .4; }
+    .account-modal { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 20px; background: rgba(0,0,0,.72); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .account-modal.open { opacity: 1; pointer-events: auto; }
+    .account-panel { width: min(430px, 100%); padding: 30px; background: linear-gradient(145deg, #f4ecdc, #e6dac3); color: var(--ink); border: 1px solid rgba(200,169,107,.75); box-shadow: 0 24px 80px rgba(0,0,0,.45); }
+    .account-panel .bag-header { border-color: rgba(154,96,72,.35); color: #6e5438; letter-spacing: .18em; }
+    .account-panel .bag-close { color: #6e5438; }
+    .account-panel { background: linear-gradient(145deg, #292319, #0f0e0c); color: var(--cream); border-color: rgba(200,169,107,.8); }
+    .account-panel .bag-header { border-color: rgba(200,169,107,.38); color: var(--acid); }
+    .account-panel .bag-close { color: var(--acid); }
+    .account-panel .account-email, .account-panel .account-form p, .account-panel .dashboard-section p { color: #c8bda7; }
+    .account-panel .account-email strong { color: var(--acid); }
+    .account-panel .account-tab, .account-panel .dashboard-tab { color: #b3a58c; border-color: rgba(200,169,107,.28); }
+    .account-panel .account-tab.active, .account-panel .dashboard-tab.active { color: var(--acid); border-color: var(--acid); }
+    .account-panel .account-form input, .account-panel .address-form input { border-color: rgba(200,169,107,.4); color: var(--cream); }
+    .account-panel .account-form input::placeholder, .account-panel .address-form input::placeholder { color: #9f917a; }
+    .account-panel .account-submit, .account-panel .dashboard-action { background: var(--acid); color: var(--ink); }
+    .account-panel .dashboard-signout { border-color: rgba(200,169,107,.28); color: #e28478; }
+    .support-actions { display: grid; gap: 10px; margin-top: 22px; }
+    .support-actions .dashboard-action { display: block; margin-top: 0; text-align: center; text-decoration: none; }
+    .account-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 24px 0; }
+    .account-tab { padding: 12px; background: transparent; border-bottom: 1px solid rgba(18,17,15,.22); color: #777168; font: 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .account-tab.active { color: #6e5438; border-color: var(--acid); }
+    .account-form { display: grid; gap: 13px; }
+    .account-form[hidden] { display: none; }
+    .account-form label { display: grid; gap: 7px; font: 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .account-form input { width: 100%; padding: 13px; border: 1px solid rgba(18,17,15,.22); background: transparent; color: var(--ink); font: 14px var(--body); }
+    .account-form p { color: #777168; font-size: 13px; line-height: 1.6; margin: 0 0 4px; }
+    .account-form p strong { color: var(--ink); }
+    .demo-code { color: #777168; font: 9px var(--mono); line-height: 1.5; }
+    .account-submit { margin-top: 8px; padding: 15px; background: var(--ink); color: var(--cream); font: 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .account-dashboard[hidden] { display: none; }
+    .account-email { color: #777168; font-size: 13px; line-height: 1.5; margin: 22px 0; }
+    .account-email strong { color: #8a6737; font-weight: 600; }
+    .dashboard-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 18px; }
+    .dashboard-tab { padding: 11px 6px; background: transparent; border-bottom: 1px solid rgba(18,17,15,.2); color: #777168; font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .dashboard-tab.active { color: var(--ink); border-color: var(--acid); }
+    .dashboard-signout { padding: 11px 6px; background: transparent; border-bottom: 1px solid rgba(18,17,15,.2); color: #a4493d; font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .dashboard-section[hidden] { display: none; }
+    .dashboard-section p { color: #777168; font-size: 13px; line-height: 1.6; }
+    .address-form { display: grid; gap: 12px; }
+    .address-form label { display: grid; gap: 7px; color: var(--ink); font: 10px var(--mono); letter-spacing: .08em; }
+    .address-form input { width: 100%; padding: 13px; border: 1px solid rgba(18,17,15,.22); background: transparent; color: var(--ink); font: 14px var(--body); }
+    .dashboard-action { width: 100%; margin-top: 12px; padding: 14px; background: var(--ink); color: var(--cream); font: 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .product-modal { position: fixed; inset: 0; z-index: 11; display: grid; place-items: center; padding: 20px; background: rgba(0,0,0,.76); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .product-modal.open { opacity: 1; pointer-events: auto; }
+    .product-detail { width: min(820px, 100%); display: grid; grid-template-columns: 1fr 1fr; background: var(--cream); color: var(--ink); border: 1px solid rgba(200,169,107,.75); box-shadow: 0 24px 80px rgba(0,0,0,.5); }
+    .detail-image { min-height: 420px; background: #e5ded1; }
+    .detail-image img { width: 100%; height: 100%; min-height: 420px; display: block; object-fit: cover; }
+    .detail-copy { padding: 34px; display: flex; flex-direction: column; justify-content: center; }
+    .detail-copy h2 { margin: 14px 0 10px; font: 500 52px/.9 var(--display); text-transform: uppercase; }
+    .detail-copy p { color: #777168; line-height: 1.7; max-width: 310px; }
+    .detail-copy p.arabic-description { direction: rtl; text-align: right; max-width: 360px; }
+    .detail-price { color: #d43b32; font: 700 20px var(--body); margin: 18px 0; }
+    .detail-close { position: absolute; top: 24px; right: 28px; background: transparent; color: var(--cream); font: 28px var(--body); }
+    .detail-add { padding: 15px; background: var(--ink); color: var(--cream); font: 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    @media (max-width: 760px) { .product-detail { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } .detail-image, .detail-image img { min-height: 260px; height: 260px; } .detail-copy { padding: 24px; } .detail-copy h2 { font-size: 44px; } }
+    @media (max-width: 760px) { .bag-drawer { padding: 22px 20px; } }
+    .category-tabs { border-color: rgba(242, 238, 231, .25); }
+    .category-tab.active { color: var(--cream); border-color: var(--acid); }
+    .site-footer { background: #0d0d0d; color: var(--cream); }
+    .support-label { color: var(--acid); }
+    .product-image .product-tag { background: var(--acid); color: var(--ink); padding: 8px 10px; }
+    .hero-photo .product-tag { font-family: var(--display); font-size: 18px; letter-spacing: .08em; background: var(--acid); color: var(--ink) !important; padding: 8px 12px; }
+    .age-notice { position: relative; z-index: 4; display: none; align-items: center; justify-content: center; gap: 18px; padding: 13px 52px 13px 20px; background: var(--acid); color: var(--ink); text-align: center; }
+    #ageNotice.show { display: flex; }
+    .age-notice strong { font: 600 15px var(--body); letter-spacing: .03em; }
+    .age-notice span { font-size: 12px; }
+    .age-notice { background: #9e3b32; color: var(--cream); }
+    .age-notice strong { font: 18px var(--display); letter-spacing: .08em; }
+    .age-notice button { color: var(--cream); }
+    .age-notice button { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); padding: 0; background: transparent; color: var(--ink); font: 22px var(--body); }
+    @media (max-width: 760px) { #ageNotice.show { display: block; } .age-notice { padding: 12px 44px 12px 16px; text-align: right; } .age-notice strong, .age-notice span { display: block; font-size: 11px; line-height: 1.5; } }
+    .product-image img { display: block; transition: transform .45s ease; }
+    .product-card:hover .product-image img { transform: scale(1.04); }
+    .product-image { perspective: 900px; cursor: pointer; }
+    .product-card .product-image.flipped img { transform: rotateY(180deg) scale(1.04); transition: transform .65s cubic-bezier(.2,.7,.2,1); }
+    .product-meta { min-height: 54px; }
+    .product-meta strong { color: #d43b32; font: 700 16px var(--body); letter-spacing: .01em; white-space: nowrap; }
+    .product-meta p, .detail-copy p { font-family: 'Cormorant Garamond', 'Noto Naskh Arabic', serif; font-size: 17px; letter-spacing: .01em; }
+    .detail-copy p { line-height: 1.8; }
+    .detail-copy p.arabic-description { font-family: 'Noto Naskh Arabic', 'Cormorant Garamond', serif; }
+    .stock-status { display: block; margin-top: 8px; color: #6f8b24; font: 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    @media (max-width: 760px) {
+      .hero-photo { width: min(52vw, 260px) !important; height: 350px !important; transform: rotate(6deg) !important; }
+      .product-image .product-tag { padding: 6px 7px; font-size: 8px; }
+      .stock-status { font-size: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="age-gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageTitle">
+    <div class="age-panel">
+      <span class="eyebrow">CASANOVA VAPE / ADULTS ONLY</span>
+      <h2 id="ageTitle">ENTER THE<br><em>AFTERGLOW.</em></h2>
+      <p>Are you 21 or older?</p>
+      <div class="age-actions">
+        <button class="button button-primary" id="enterSite">I'M 21 OR OLDER <span>↗</span></button>
+        <button class="button button-quiet" id="leaveSite">I'M UNDER 21</button>
       </div>
-    </header>
-
-    <div id="cartOverlay" class="cart-overlay" aria-hidden="true"></div>
-    <aside id="cartPanel" class="cart-panel" aria-hidden="true">
-      <div class="cart-header">
-        <h3>Your bag</h3>
-        <button id="cartClose" class="close-cart" type="button" aria-label="Close shopping bag">✕</button>
-      </div>
-
-      <div class="cart-items">
-        <div class="cart-item">
-          <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80" alt="Signature blazer" />
-          <div>
-            <strong>Signature Blazer</strong>
-            <p>$189</p>
-          </div>
-        </div>
-        <div class="cart-item">
-          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" alt="Silk Icon Shirt" />
-          <div>
-            <strong>Silk Icon Shirt</strong>
-            <p>$128</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="cart-footer">
-        <div class="summary-row">
-          <span>Subtotal</span>
-          <strong>$317</strong>
-        </div>
-        <button id="checkoutButton" type="button" class="primary-btn full-width">Checkout</button>
-      </div>
-    </aside>
-
-    <div id="checkoutOverlay" class="checkout-overlay" aria-hidden="true">
-      <section class="checkout-dialog" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
-        <div class="checkout-header">
-          <div>
-            <p class="eyebrow">Secure order request</p>
-            <h2 id="checkoutTitle">Complete your order</h2>
-          </div>
-          <button id="checkoutClose" class="close-cart" type="button" aria-label="Close checkout">✕</button>
-        </div>
-
-        <form id="checkoutForm" class="checkout-form">
-          <label>
-            Full name
-            <input name="name" type="text" autocomplete="name" required />
-          </label>
-          <label>
-            Phone number
-            <input name="phone" type="tel" autocomplete="tel" required />
-          </label>
-          <label>
-            Delivery address
-            <textarea name="address" rows="3" autocomplete="street-address" required></textarea>
-          </label>
-          <fieldset>
-            <legend>Payment method</legend>
-            <label class="payment-option">
-              <input name="payment" type="radio" value="Bank Transfer" required />
-              <span><strong>Bank Transfer</strong><small>We will send payment details on WhatsApp.</small></span>
-            </label>
-            <label class="payment-option">
-              <input name="payment" type="radio" value="USDT Coin" />
-              <span><strong>USDT Coin</strong><small>Wallet details will be shared after confirmation.</small></span>
-            </label>
-          </fieldset>
-          <button class="primary-btn full-width" type="submit">Send order on WhatsApp</button>
-          <p class="checkout-note">Your order request will open WhatsApp with your details. Payment is confirmed manually.</p>
-        </form>
-      </section>
+      <small>By entering, you confirm that you are older than 21.</small>
     </div>
+  </div>
 
-    <main>
-      <section id="home" class="hero">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">New season / refined essentials</p>
-            <h1>Dress sharper. Feel bolder.</h1>
-            <p>
-              Thoughtful tailoring, premium fabrics, and everyday pieces designed for a life lived beautifully.
-            </p>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Casanova Vape home"><span class="brand-mark">C</span><span>CASANOVA<br><b>VAPE</b></span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#shop">Shop</a>
+      <a href="#story">Our approach</a>
+      <a href="#support" id="supportLink">Support</a>
+    </nav>
+    <div class="header-tools">
+      <button class="text-button" aria-label="Search">Search <span>⌕</span></button>
+      <button class="text-button" id="accountButton" aria-label="Open account">Account</button>
+      <button class="cart-button" aria-label="Shopping bag">Bag <b id="cartCount">0</b><span class="cart-total" id="cartTotal">0 EGP</span></button>
+    </div>
+  </header>
+  <div class="age-notice" id="ageNotice" dir="rtl"><strong>تنبيه هام +18</strong><span>لا يتم إرسال الطلبات لمن هم دون الـ 18 سنة، وسيتم التأكد من السن قبل إرسال الشحنة.</span><button id="closeAgeNotice" type="button" aria-label="إغلاق التنبيه">×</button></div>
 
-            <div class="hero-actions">
-              <a class="primary-btn" href="#featured">Explore collection</a>
-              <a class="secondary-btn" href="#collections">View lookbook</a>
-            </div>
-
-            <ul class="hero-stats" aria-label="Store statistics">
-              <li>Free shipping over $150</li>
-              <li>4.9/5 customer rating</li>
-              <li>New arrivals weekly</li>
-            </ul>
-          </div>
-
-          <div class="hero-visual" aria-label="Featured fashion look">
-            <div class="look-stack">
-              <div class="fashion-card main">
-                <img
-                  src="688440915_18006498734873096_5065158614723290621_n.jpg"
-                  alt="Casanova profile"
-                />
-                <div class="fashion-info">
-                  <span>Signature edit</span>
-                  <h3>Urban Luxe</h3>
-                  <p>Tailored silhouettes & elevated textures</p>
-                </div>
-              </div>
-              <div class="floating-badge">Limited drop</div>
-              <div class="floating-card">
-                <div class="quote">“Style is not about excess, it’s about intentional choice.”</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="collections" class="section">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Curated collections</p>
-              <h2>Build your signature wardrobe.</h2>
-            </div>
-            <p>
-              Discover refined staples that move effortlessly from day to evening with confidence and ease.
-            </p>
-          </div>
-
-          <div class="category-grid">
-            <article class="category-card">
-              <div class="icon" aria-hidden="true">🧥</div>
-              <h3>Outerwear</h3>
-              <p>Sharp layers for crisp mornings and effortless evenings.</p>
-            </article>
-            <article class="category-card">
-              <div class="icon" aria-hidden="true">👔</div>
-              <h3>Tailoring</h3>
-              <p>Modern suiting designed to structure and elevate every look.</p>
-            </article>
-            <article class="category-card">
-              <div class="icon" aria-hidden="true">👟</div>
-              <h3>Footwear</h3>
-              <p>Luxury essentials that finish your outfit with polish.</p>
-            </article>
-            <article class="category-card">
-              <div class="icon" aria-hidden="true">👜</div>
-              <h3>Accessories</h3>
-              <p>Fine details that bring a sense of personal statement.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="featured" class="section alt">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Most loved</p>
-              <h2>Featured pieces.</h2>
-            </div>
-            <p>
-              Bestselling styles selected for comfort, premium quality, and a lasting impression.
-            </p>
-          </div>
-
-          <div class="product-grid">
-            <article class="product-item">
-              <div class="product-visual">
-                <span class="badge">New</span>
-                <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80" alt="Modern tailored blazer" />
-              </div>
-              <div class="product-copy">
-                <p>Tailored</p>
-                <h3>Signature Blazer</h3>
-                <div class="product-meta">
-                  <span class="star">★★★★★</span>
-                  <span class="price">$189</span>
-                </div>
-                <div class="product-meta">
-                  <span>Black / Navy</span>
-                  <button class="cart-btn" type="button">Add to bag</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-item">
-              <div class="product-visual">
-                <span class="badge">Bestseller</span>
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" alt="Silk shirt styling" />
-              </div>
-              <div class="product-copy">
-                <p>Essentials</p>
-                <h3>Silk Icon Shirt</h3>
-                <div class="product-meta">
-                  <span class="star">★★★★★</span>
-                  <span class="price">$128</span>
-                </div>
-                <div class="product-meta">
-                  <span>Ivory / Sand</span>
-                  <button class="cart-btn" type="button">Add to bag</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-item">
-              <div class="product-visual">
-                <span class="badge">Editor’s pick</span>
-                <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=800&q=80" alt="Leather sneakers" />
-              </div>
-              <div class="product-copy">
-                <p>Footwear</p>
-                <h3>Leather Runner</h3>
-                <div class="product-meta">
-                  <span class="star">★★★★★</span>
-                  <span class="price">$165</span>
-                </div>
-                <div class="product-meta">
-                  <span>Stone / Camel</span>
-                  <button class="cart-btn" type="button">Add to bag</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-item">
-              <div class="product-visual">
-                <span class="badge">Limited</span>
-                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80" alt="Wool coat" />
-              </div>
-              <div class="product-copy">
-                <p>Winter</p>
-                <h3>Wool Statement Coat</h3>
-                <div class="product-meta">
-                  <span class="star">★★★★★</span>
-                  <span class="price">$240</span>
-                </div>
-                <div class="product-meta">
-                  <span>Mocha / Beige</span>
-                  <button class="cart-btn" type="button">Add to bag</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-item">
-              <div class="product-visual">
-                <span class="badge">New</span>
-                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Streetwear set" />
-              </div>
-              <div class="product-copy">
-                <p>Streetwear</p>
-                <h3>Urban Layer Set</h3>
-                <div class="product-meta">
-                  <span class="star">★★★★★</span>
-                  <span class="price">$172</span>
-                </div>
-                <div class="product-meta">
-                  <span>Sand / Black</span>
-                  <button class="cart-btn" type="button">Add to bag</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-item">
-              <div class="product-visual">
-                <span class="badge">Popular</span>
-                <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="Luxury fashion model" />
-              </div>
-              <div class="product-copy">
-                <p>Luxury</p>
-                <h3>Monarch Knit</h3>
-                <div class="product-meta">
-                  <span class="star">★★★★★</span>
-                  <span class="price">$210</span>
-                </div>
-                <div class="product-meta">
-                  <span>Ivory / Taupe</span>
-                  <button class="cart-btn" type="button">Add to bag</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-item">
-              <div class="product-visual">
-                <span class="badge">Trending</span>
-                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80" alt="Leather jacket" />
-              </div>
-              <div class="product-copy">
-                <p>Outerwear</p>
-                <h3>Midnight Leather</h3>
-                <div class="product-meta">
-                  <span class="star">★★★★★</span>
-                  <span class="price">$260</span>
-                </div>
-                <div class="product-meta">
-                  <span>Jet Black</span>
-                  <button class="cart-btn" type="button">Add to bag</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="product-item">
-              <div class="product-visual">
-                <span class="badge">Fresh</span>
-                <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=800&q=80" alt="Classic white t-shirt" />
-              </div>
-              <div class="product-copy">
-                <p>Basics</p>
-                <h3>Classic Tee</h3>
-                <div class="product-meta">
-                  <span class="star">★★★★★</span>
-                  <span class="price">$58</span>
-                </div>
-                <div class="product-meta">
-                  <span>White / Cream</span>
-                  <button class="cart-btn" type="button">Add to bag</button>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Why Casanova</p>
-              <h2>Elevated essentials, designed to last.</h2>
-            </div>
-          </div>
-
-          <div class="feature-grid">
-            <article class="feature-item">
-              <div class="feature-icon" aria-hidden="true">✈️</div>
-              <h3>Worldwide delivery</h3>
-              <p>Fast, insured shipping to major cities and international destinations.</p>
-            </article>
-
-            <article class="feature-item">
-              <div class="feature-icon" aria-hidden="true">🧵</div>
-              <h3>Premium fabrics</h3>
-              <p>Only the finest wool, cotton, leather, and silk in every collection.</p>
-            </article>
-
-            <article class="feature-item">
-              <div class="feature-icon" aria-hidden="true">🔁</div>
-              <h3>Easy returns</h3>
-              <p>Try your pieces at home with complimentary exchanges and returns.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="journal" class="section alt">
-        <div class="container">
-          <div class="testimonial-box">
-            <div>
-              <p class="eyebrow">Style journal</p>
-              <blockquote class="quote-block">
-                “Casanova brings together confidence, structure, and softness. Every item feels considered, polished, and unmistakably premium.”
-              </blockquote>
-            </div>
-
-            <div class="author-grid single-profile">
-              <article class="author-card profile-card">
-                <img src="688440915_18006498734873096_5065158614723290621_n.jpg" alt="d.txn" />
-                <div>
-                  <h3>d.txn</h3>
-                  <p>Creative director</p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="about" class="section about-section">
-        <div class="container about-wrap">
-          <div>
-            <p class="eyebrow">About</p>
-            <h2>Hello, welcome in my website. I'm Casanova.</h2>
-          </div>
-          <p>
-            Casanova brings premium style, confident essentials, and a modern wardrobe made for everyday expression.
-          </p>
-        </div>
-      </section>
-
-      <section class="newsletter section">
-        <div class="container">
-          <div class="newsletter-wrap">
-            <div>
-              <p class="eyebrow" style="color: rgba(255,255,255,0.75);">Join the list</p>
-              <h2>Receive first access to new drops.</h2>
-              <p>Be the first to discover seasonal edits, private offers, and styling inspiration.</p>
-            </div>
-
-            <form class="newsletter-form" aria-label="Newsletter signup">
-              <input type="email" placeholder="Your email address" aria-label="Email address" />
-              <button type="submit">Subscribe</button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      <section class="section contact-block">
-        <div class="container contact-grid">
-          <div class="contact-card">
-            <p class="eyebrow">Contact us</p>
-            <h2>Need help with your order?</h2>
-            <p>Message us directly on WhatsApp for quick support, sizing guidance, and order updates.</p>
-            <a class="contact-link" href="https://wa.me/201202700449" target="_blank" rel="noreferrer">WhatsApp: 01202700449</a>
-          </div>
-
-          <div class="contact-card">
-            <p class="eyebrow">Payment methods</p>
-            <h2>Flexible checkout options</h2>
-            <ul class="payment-list">
-              <li><strong>Bank Transfer</strong> — Available for local orders and invoice payments.</li>
-              <li><strong>USDT Coin</strong> — Secure crypto payment accepted for supported transactions.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer id="contact" class="site-footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <a href="#" class="brand" aria-label="Casanova home">
-              <span class="brand-mark">C</span>
-              <span>Casanova</span>
-            </a>
-            <p>Modern essentials for the confident wardrobe.</p>
-          </div>
-
-          <div class="footer-column">
-            <h4>Shop</h4>
-            <a href="#featured">Featured</a>
-            <a href="#collections">Collections</a>
-            <a href="#">Gift cards</a>
-          </div>
-
-          <div class="footer-column">
-            <h4>Company</h4>
-            <a href="#about">About</a>
-            <a href="#journal">Journal</a>
-            <a href="#">Careers</a>
-          </div>
-
-          <div class="footer-column">
-            <h4>Support</h4>
-            <a href="https://wa.me/01202700449" target="_blank" rel="noreferrer">WhatsApp</a>
-            <a href="https://www.instagram.com/d.txn" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="#">Bank Transfer</a>
-            <a href="#">USDT Coin</a>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <span>© <span id="year"></span> Casanova. All rights reserved.</span>
-          <span>Crafted for modern living.</span>
-        </div>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-noise"></div>
+      <div class="hero-copy">
+        <h1>MAKE<br><em>SPACE.</em></h1>
+        <p>A sharper take on the ritual. Hardware, liquid and essentials for the in-between.</p>
+        <a class="button button-primary" href="#shop">SHOP THE DROP <span>↓</span></a>
       </div>
-    </footer>
-  </body>
-</html>
+      <div class="hero-product">
+        <div class="halo halo-one"></div><div class="halo halo-two"></div>
+        <div class="device-shadow"></div>
+        <div class="hero-photo" style="position:relative;z-index:2;transform:rotate(8deg);width:min(30vw,330px);height:480px;overflow:hidden;background:transparent;box-shadow:-35px 50px 65px rgba(0,0,0,.7)"><img src="assets/xlim-ultra-3-cutout.png" alt="XLIM Ultra 3 pod device" style="width:100%;height:100%;object-fit:contain"><span class="product-tag" style="color:#151515;z-index:3">NEW ARRIVAL</span><span class="device-label" style="z-index:3;color:#d8f24e">XLIM<br>ULTRA 3</span></div>
+        <div class="floating-note note-top"><span>01</span> POCKET<br>FORM</div>
+        <div class="floating-note note-bottom">SMOOTH AIR<br><span>PURE FLAVOR</span></div>
+      </div>
+      <div class="scroll-cue">SCROLL TO EXPLORE <span>↓</span></div>
+    </section>
 
+    <section class="ticker" aria-label="Store promise"><div>SMOOTH DRAW</div><span>✦</span><div>CONSIDERED HARDWARE</div><span>✦</span><div>PURE FLAVOR</div><span>✦</span><div>SMOOTH DRAW</div></section>
+
+    <section class="shop-section" id="shop">
+      <div class="section-heading">
+        <div><span class="eyebrow">THE COLLECTION / 01</span><h2>FIND YOUR<br><em>RITUAL.</em></h2></div>
+        <p>Cut the noise. Keep the good part. Build a setup that feels as good as it works.</p>
+      </div>
+      <div class="category-tabs" role="tablist" aria-label="Product categories"><button class="category-tab active" data-category="pods" role="tab" aria-selected="true">Pods <span>06</span></button><button class="category-tab" data-category="cartridge" role="tab" aria-selected="false">Cartridge <span>01</span></button><button class="category-tab" data-category="liquid" role="tab" aria-selected="false">Liquid <span>01</span></button></div>
+      <div class="product-grid pods-grid" id="pods">
+        <article class="product-card"><div class="product-image pod-photo"><img style="width:100%;height:100%;object-fit:cover" src="assets/nexlim-go.webp" alt="Nexlim Go pod device"><span class="product-tag">PODS / 01</span></div><div class="product-meta"><div><h3>Nexlim Go</h3><p>Pod device</p></div><strong>700 EGP</strong></div></article>
+        <article class="product-card"><div class="product-image pod-photo"><img style="width:100%;height:100%;object-fit:cover" src="assets/oxva-oneo.webp" alt="OXVA Oneo pod device"><span class="product-tag">PODS / 02</span></div><div class="product-meta"><div><h3>OXVA Oneo</h3><p>Pod device</p></div><strong>1000 EGP</strong></div></article>
+        <article class="product-card"><div class="product-image pod-photo"><img style="width:100%;height:100%;object-fit:cover" src="assets/xlim-go.webp" alt="XLIM Go pod device"><span class="product-tag">PODS / 05</span></div><div class="product-meta"><div><h3>XLIM Go</h3><p>Pod device</p></div><strong>550 EGP</strong></div></article>
+        <article class="product-card"><div class="product-image pod-photo"><img style="width:100%;height:100%;object-fit:cover" src="assets/xlim-pro-3.webp" alt="XLIM Pro 3 pod device"><span class="product-tag">PODS / 06</span></div><div class="product-meta"><div><h3>XLIM Pro 3</h3><p>Pod device</p></div><strong>800 EGP</strong></div></article>
+        <article class="product-card"><div class="product-image pod-photo"><img style="width:100%;height:100%;object-fit:cover" src="assets/xlim-sq-pro-2.jpg" alt="XLIM SQ Pro 2 pod device"><span class="product-tag">PODS / 07</span></div><div class="product-meta"><div><h3>XLIM SQ Pro 2</h3><p>Pod device</p></div><strong>900 EGP</strong></div></article>
+        <article class="product-card"><div class="product-image pod-photo"><img style="width:100%;height:100%;object-fit:cover" src="assets/xlim-ultra-3.jpg" alt="XLIM Ultra 3 pod device"><span class="product-tag">PODS / 08</span></div><div class="product-meta"><div><h3>XLIM Ultra 3</h3><p>Pod device</p></div><strong>650 EGP</strong></div></article>
+      </div>
+      <div class="product-grid cartridge-grid" id="cartridge">
+        <article class="product-card"><div class="product-image product-image-cartridge"><img style="width:100%;height:100%;object-fit:cover" src="assets/xlim-cartridge.jpg" alt="XLIM Cartridge"><span class="product-tag">CARTRIDGE / 01</span></div><div class="product-meta"><div><h3>XLIM Cartridge</h3><p>Replacement cartridge</p></div><strong>180 EGP</strong></div></article>
+      </div>
+      <div class="product-grid liquid-grid" id="liquid">
+        <article class="product-card"><div class="product-image product-image-liquid"><img style="width:100%;height:100%;object-fit:cover" src="assets/vape-station.jpg" alt="Vape Station liquid"><span class="product-tag">LIQUID / 01</span></div><div class="product-meta"><div><h3>Vape Station</h3><p>Liquid</p></div><strong>150 EGP</strong></div></article>
+      </div>
+    </section>
+
+    <section class="manifesto" id="story"><div class="manifesto-line"></div><span class="eyebrow">OUR APPROACH / 02</span><h2>LESS, BUT<br><em>BETTER.</em></h2><p>We obsess over the details you feel: the click, the draw, the finish, the last note of flavor. Casanova Vape is a small collection of objects made to disappear into your day.</p></section>
+
+  </main>
+
+  <footer class="site-footer" id="support"><a class="brand" href="#top"><span class="brand-mark">C</span><span>CASANOVA<br><b>VAPE</b></span></a><div class="footer-links"><a href="#shop">Shop</a><a href="#story">About</a><span class="support-label">Support</span><a href="https://wa.me/201202700449" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:omarragab597@gmail.com">Email</a></div><p>© 2024 Casanova Vape. Use responsibly.</p></footer>
+  <div class="cart-toast" id="cartToast" role="status" aria-live="polite">Added to cart.</div>
+  <div class="bag-backdrop" id="bagBackdrop"></div>
+  <aside class="bag-drawer" id="bagDrawer" aria-label="Shopping bag" aria-hidden="true">
+    <div class="bag-header"><span>YOUR BAG</span><button class="bag-close" id="closeBag" aria-label="Close shopping bag">×</button></div>
+    <div class="bag-items" id="bagItems"><p class="bag-empty">Your bag is empty.</p></div>
+    <div class="bag-total"><span>Total</span><strong id="bagTotal">0 EGP</strong></div>
+    <button class="checkout-button" type="button">CHECKOUT</button>
+  </aside>
+  <div class="checkout-modal" id="checkoutModal" aria-hidden="true">
+    <div class="checkout-panel" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <div class="bag-header"><span id="checkoutTitle">PAYMENT METHOD</span><button class="bag-close" id="closeCheckout" aria-label="Close checkout">×</button></div>
+      <p>Choose how you would like to complete your order.</p>
+      <div class="payment-options">
+        <button class="payment-option" type="button" data-payment="InstaPay"><span><strong>InstaPay</strong><small>Instant bank transfer</small></span></button>
+        <button class="payment-option" type="button" data-payment="Cash on Delivery"><span><strong>Cash on Delivery</strong><small>Pay when your order arrives</small></span></button>
+        <button class="payment-option" type="button" data-payment="Vodafone Cash"><span><strong>Vodafone Cash</strong><small>Mobile wallet payment</small></span></button>
+      </div>
+      <button class="confirm-payment" id="confirmPayment" type="button" disabled>SELECT A PAYMENT METHOD</button>
+    </div>
+  </div>
+  <div class="account-modal" id="accountModal" aria-hidden="true">
+    <div class="account-panel" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+      <div class="bag-header"><span id="accountTitle">YOUR ACCOUNT</span><button class="bag-close" id="closeAccount" aria-label="Close account">×</button></div>
+      <div class="account-tabs" role="tablist" aria-label="Account access">
+        <button class="account-tab active" type="button" data-account-view="signin" role="tab" aria-selected="true">Sign In</button>
+        <button class="account-tab" type="button" data-account-view="signup" role="tab" aria-selected="false">Create Account</button>
+      </div>
+      <form class="account-form" id="signInForm">
+        <label>Email<input type="email" name="email" placeholder="you@example.com" required></label>
+        <label>Password<input type="password" name="password" placeholder="Your password" required></label>
+        <button class="account-submit" type="submit">SIGN IN</button>
+      </form>
+      <form class="account-form" id="signUpForm" hidden>
+        <label>Name<input type="text" name="name" placeholder="Your name" required></label>
+        <label>Email<input type="email" name="email" placeholder="you@example.com" required></label>
+        <label>Password<input type="password" name="password" placeholder="Create a password" required></label>
+        <button class="account-submit" type="submit">CREATE ACCOUNT</button>
+      </form>
+      <form class="account-form" id="confirmForm" hidden>
+        <p>Enter the confirmation code sent to <strong id="confirmEmail"></strong>.</p>
+        <label>Confirmation code<input type="text" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" required></label>
+        <small class="demo-code" id="demoCode"></small>
+        <button class="account-submit" type="submit">CONFIRM EMAIL</button>
+      </form>
+      <div class="account-dashboard" id="accountDashboard" hidden>
+        <p class="account-email">Signed in as <strong id="accountEmail"></strong></p>
+        <div class="dashboard-tabs" role="tablist" aria-label="Account sections">
+          <button class="dashboard-tab active" type="button" data-dashboard-section="address" role="tab" aria-selected="true">Address</button>
+          <button class="dashboard-tab" type="button" data-dashboard-section="orders" role="tab" aria-selected="false">Orders</button>
+          <button class="dashboard-tab" type="button" data-dashboard-section="bag" role="tab" aria-selected="false">Bag</button>
+          <button class="dashboard-signout" id="signOutButton" type="button">Sign Out</button>
+        </div>
+        <div class="dashboard-section" id="addressSection">
+          <form class="address-form" id="addressForm" dir="rtl"><label>الاسم<input id="addressName" type="text" placeholder="الاسم" required></label><label>العنوان<input id="addressInput" type="text" placeholder="العنوان" required></label><label>رقم الهاتف<input id="addressPhone" type="tel" placeholder="رقم الهاتف" required></label><button class="dashboard-action" type="submit">SAVE ADDRESS</button></form>
+        </div>
+        <div class="dashboard-section" id="ordersSection" hidden><p>No orders yet. Your completed orders will appear here.</p></div>
+        <div class="dashboard-section" id="accountBagSection" hidden><p id="accountBagSummary">Your bag is empty.</p><button class="dashboard-action" id="openBagFromAccount" type="button">OPEN BAG</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="product-modal" id="productModal" aria-hidden="true">
+    <button class="detail-close" id="closeProduct" aria-label="Close product details">×</button>
+    <div class="product-detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <div class="detail-image"><img id="detailImage" src="" alt=""></div>
+      <div class="detail-copy"><span class="eyebrow" id="detailCategory"></span><h2 id="detailTitle"></h2><p id="detailDescription"></p><strong class="detail-price" id="detailPrice"></strong><button class="detail-add" id="detailAdd" type="button">ADD TO CART</button></div>
+    </div>
+  </div>
+  <div class="account-modal support-modal" id="supportModal" aria-hidden="true">
+    <div class="account-panel" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+      <div class="bag-header"><span id="supportTitle">SUPPORT</span><button class="bag-close" id="closeSupport" aria-label="Close support">×</button></div>
+      <p class="account-email">We are here to help with your order, account, or product questions.</p>
+      <div class="support-actions"><a class="dashboard-action" href="https://wa.me/201202700449" target="_blank" rel="noopener">WHATSAPP / 01202700449</a><a class="dashboard-action" href="mailto:omarragab597@gmail.com">EMAIL / omarragab597@gmail.com</a></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
